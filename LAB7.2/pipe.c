@@ -78,9 +78,9 @@ int read_pipe(int fd, char *buf, int n)
 
 		//pipe has data
 		if (r || n == 0){		
-			kwakeup(&p->room);
 			printf("Pipe after read\n");
 			show_pipe(p);
+			//kwakeup(&p->room);
 			return r;
 		}
 		
@@ -90,8 +90,7 @@ int read_pipe(int fd, char *buf, int n)
 			show_pipe(p);
 
 			kwakeup(&p->room); // wakeup ALL writers, if any.
-			ksleep(&p->data); // sleep for data
-			continue;
+			sleep(&p->data); // sleep for data
 		}
 
 		// pipe has no writer and no data
